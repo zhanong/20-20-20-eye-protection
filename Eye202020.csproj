@@ -20,4 +20,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Images\Eye202020.png" />
+    <Resource Include="Images\Instruction.png" />
+  </ItemGroup>
+
 </Project>

@@ -29,15 +29,33 @@ public partial class NotificationWindow : Window
     private DispatcherTimer? _visibilityTimer;
     private DispatcherTimer? _countdownTimer;
     private int _remainingSeconds = 20;
+    private bool _showInstruction;
 
-    public NotificationWindow()
+    /// <summary>
+    /// Initialize notification window with optional instruction image display
+    /// </summary>
+    /// <param name="showInstruction">Whether to show the instruction image</param>
+    public NotificationWindow(bool showInstruction = true)
     {
+        _showInstruction = showInstruction;
         InitializeComponent();
+        SetupInstructionImage();
         PositionWindow();
         ApplyInputPassthroughStyles();
         PlayNotificationSound();
         StartCountdownTimer();
         StartVisibilityTimer();
+    }
+
+    /// <summary>
+    /// Setup instruction image visibility based on user preference
+    /// </summary>
+    private void SetupInstructionImage()
+    {
+        if (InstructionImage != null)
+        {
+            InstructionImage.Visibility = _showInstruction ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
     /// <summary>

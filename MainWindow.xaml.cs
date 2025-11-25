@@ -18,6 +18,9 @@ public partial class MainWindow : Window
     private ToolStripMenuItem? _countdownMenuItem;
     private DispatcherTimer? _countdownDisplayTimer;
     private Icon? _customIcon;
+    private bool _showInstruction = true; // Default to showing instruction
+    private ToolStripMenuItem? _showInstructionMenuItem;
+    private TimeSpan _notificationInterval = TimeSpan.FromMinutes(20);
 
     public MainWindow()
     {
@@ -54,12 +57,23 @@ public partial class MainWindow : Window
             Visible = true
         };
 
-        // Create context menu with countdown and quit option
+        // Create context menu with countdown, toggle, and quit option
         var contextMenu = new ContextMenuStrip();
         
         _countdownMenuItem = new ToolStripMenuItem("Next in: --:--");
         _countdownMenuItem.Enabled = false; // Make it non-clickable, just for display
         contextMenu.Items.Add(_countdownMenuItem);
+        
+        contextMenu.Items.Add(new ToolStripSeparator());
+        
+        _showInstructionMenuItem = new ToolStripMenuItem("Show instruction");
+        _showInstructionMenuItem.Checked = _showInstruction;
+        _showInstructionMenuItem.CheckOnClick = true;
+        _showInstructionMenuItem.Click += (s, e) =>
+        {
+            _showInstruction = _showInstructionMenuItem.Checked;
+        };
+        contextMenu.Items.Add(_showInstructionMenuItem);
         
         contextMenu.Items.Add(new ToolStripSeparator());
         
@@ -86,7 +100,7 @@ public partial class MainWindow : Window
         _timerStartTime = DateTime.Now;
         _timer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMinutes(20)
+            Interval = _notificationInterval
         };
         _timer.Tick += Timer_Tick;
         _timer.Start();
@@ -107,7 +121,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void ShowNotification()
     {
-        var notificationWindow = new NotificationWindow();
+        var notificationWindow = new NotificationWindow(_showInstruction);
         notificationWindow.Show();
     }
 
@@ -120,7 +134,7 @@ public partial class MainWindow : Window
             return;
         
         var elapsed = DateTime.Now - _timerStartTime;
-        var remaining = TimeSpan.FromMinutes(20) - elapsed;
+        var remaining = _notificationInterval - elapsed;
         
         if (remaining.TotalSeconds <= 0)
         {

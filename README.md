@@ -2,6 +2,8 @@
 
 A Windows desktop application that helps protect your eyes by reminding you to take breaks every 20 minutes, following the 20-20-20 rule (every 20 minutes, look at something 20 feet away for 20 seconds).
 
+![The 20-20-20 Rule for Eye Health](Images/Instruction.png)
+
 ## Features
 
 - **Background Operation**: Runs silently in the system tray
@@ -20,12 +22,15 @@ A Windows desktop application that helps protect your eyes by reminding you to t
 ## Building
 
 ### Framework-Dependent Build
+
 ```bash
 dotnet build -c Release
 ```
 
 ### Self-Contained Single-File Build (Recommended)
+
 Creates a single executable that works on any Windows machine without .NET installation:
+
 ```bash
 dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```
@@ -42,9 +47,16 @@ The output will be in: `bin/Release/net8.0-windows/win-x64/publish/Eye202020.exe
 4. Every 20 minutes, a notification will appear at the top center of your screen
 5. The notification shows a 20-second countdown and automatically fades away
 
+## Run App on Startup
+
+1. Press Win + R to open Run dialog
+2. Type shell:startup and press Enter
+3. Create a shortcut to Eye202020.exe in that folder
+
 ## Customization
 
 ### Changing the App Icon
+
 1. Create or obtain an `.ico` file
 2. Name it `icon.ico` and place it in the project root
 3. Rebuild the application
@@ -61,5 +73,3 @@ The icon will be used for both the application icon and the system tray icon.
 ## License
 
 [Add your license here]
-
-
